@@ -28,7 +28,7 @@ public class TransactionService {
     @Autowired
     private  NotificationService notificationService;
 
-    public void createTransaction(TransactionDTO transactionDTO) throws Exception {
+    public Transaction createTransaction(TransactionDTO transactionDTO) throws Exception {
         User sender = this.userService.findUserById(transactionDTO.senderId());
         User receiver = this.userService.findUserById(transactionDTO.receiverId());
 
@@ -52,6 +52,9 @@ public class TransactionService {
         this.userService.saveUser(receiver);
 
         notificationService.sendNotification(sender, "Transferencia efeutada com Sucesso!");
+        notificationService.sendNotification(receiver, "Transferencia efeutada com Sucesso!");
+
+        return transaction;
     }
 
     public boolean isAuthorizeTransaction(User sender, BigDecimal value){
